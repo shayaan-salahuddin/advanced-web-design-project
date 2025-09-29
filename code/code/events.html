@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Barking Around MD - Events</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="logo">Barking Around MD</div>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="events.html">Events</a>
+    <a href="posts.html">Posts</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<br></br>
+
+<main class="container">
+  <h1>Upcoming Events</h1>
+
+  <div style="text-align: center; margin-bottom: 2em;">
+    <a href="create-event.html">
+      <button>Create an Event</button>
+    </a>
+  </div>
+
+  <div id="calendar" style="max-width: 900px; margin: 2em auto;"></div>
+
+  <div class="event-filters" style="text-align:center; margin: 2em 0;">
+    <button data-filter="all" class="active">All</button>
+    <button data-filter="Meetup">Meetup</button>
+    <button data-filter="Training">Training</button>
+    <button data-filter="Fundraiser">Fundraiser</button>
+  </div>
+
+  <div class="event-list"></div>
+</main>
+
+<footer>
+  Created by Alyssa Teramoto & Shayaan Salahuddin
+</footer>
+
+<script>
+  // function for loading the events from the storage. 
+  // on the first load of the page, there will be three default events.
+  function loadEvents() {
+    const data = localStorage.getItem("events");
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return [
+        {
+          id: 'sample1',
+          title: 'Great Falls Park Meetup',
+          date: '2025-05-20',
+          time: '8:30',
+          address: '10801 Macarthur Blvd, Potomac, MD 20854, USA',
+          description: 'Join us for a fun dog-walk at Great Falls Park! Hosted by Canine Humane Network.',
+          tag: 'Meetup'
+        },
+        {
+          id: 'sample2',
+          title: 'Basic Obedience Training',
+          date: '2025-06-22',
+          time: '15:00',
+          address: '12221 Parklawn Dr, Rockville, MD 20852, USA',
+          description: 'Help your dog learn basic obedience skills.',
+          tag: 'Training'
+        },
+        {
+          id: 'sample3',
+          title: 'Dog Rescue Fundraiser',
+          date: '2025-06-25',
+          time: '18:00',
+          address: '10400 Old Georgetown Rd, Bethesda, MD 20814, USA',
+          description: 'Support local dog rescues by attending this fundraiser event hosted by CHARM Rescue.',
+          tag: 'Fundraiser'
+        },
+        {
+          id: 'sample4',
+          title: 'Puppy Social Hour',
+          date: '2025-07-05',
+          time: '10:00',
+          address: 'Dogtopia, 4936 Fairmont Ave, Bethesda, MD 20814, USA',
+          description: 'Bring your puppy for a morning of socialization and fun!',
+          tag: 'Meetup'
+        },
+        {
+          id: 'sample5',
+          title: 'Advanced Agility Training',
+          date: '2025-07-12',
+          time: '14:00',
+          address: 'Rock Creek Park, 5200 Glover Rd NW, Washington, DC 20015, USA',
+          description: 'Take your dog\'s agility skills to the next level with our advanced class.',
+          tag: 'Training'
+        },
+        {
+          id: 'sample6',
+          title: 'Summer Bark-B-Q Fundraiser',
+          date: '2025-07-20',
+          time: '12:00',
+          address: 'Cabin John Regional Park, 7400 Tuckerman Ln, Bethesda, MD 20817, USA',
+          description: 'Enjoy BBQ and games while supporting local shelters.',
+          tag: 'Fundraiser'
+        },
+        {
+          id: 'sample7',
+          title: 'Evening Dog Walk Meetup',
+          date: '2025-07-25',
+          time: '19:00',
+          address: 'Downtown Silver Spring, 1 Veterans Pl, Silver Spring, MD 20910, USA',
+          description: 'Meet fellow dog lovers for a relaxing evening walk.',
+          tag: 'Meetup'
+        },
+        {
+          id: 'sample8',
+          title: 'Tricks & Treats Training',
+          date: '2025-08-02',
+          time: '11:00',
+          address: 'PetSmart, 12020 Cherry Hill Rd, Silver Spring, MD 20904, USA',
+          description: 'Teach your dog new tricks and earn treats!',
+          tag: 'Training'
+        },
+        {
+          id: 'sample9',
+          title: 'Annual Dog Costume Parade',
+          date: '2025-08-10',
+          time: '16:00',
+          address: 'Veterans Plaza, 1 Veterans Pl, Silver Spring, MD 20910, USA',
+          description: 'Dress up your pup and join the parade for prizes and fun.',
+          tag: 'Fundraiser'
+        }
+      ];
+    }
+  }
+
+  // function for saving the events
+  function saveEvents(events) {
+    localStorage.setItem("events", JSON.stringify(events));
+  }
+
+  // Render the events page
+  // This includes the calendar, the full list, and filtering buttons
+  function renderEventsPage() {
+    const events = loadEvents();
+
+    const eventList = document.querySelector('.event-list');
+    if (!eventList) return;
+
+    eventList.innerHTML = ''; // clear existing
+
+    events.forEach(event => {
+      const eventCard = document.createElement('div');
+      eventCard.classList.add('event-card');
+      eventCard.dataset.tags = event.tag;
+      eventCard.style.border = "1px solid #ccc";
+      eventCard.style.padding = "1em";
+      eventCard.style.marginBottom = "1em";
+      eventCard.style.borderRadius = "0.5em";
+      eventCard.style.backgroundColor = "#fafafa";
+
+      eventCard.innerHTML = `
+        <h3>${event.title}</h3>
+        <p>${new Date(event.date).toLocaleDateString()} at ${event.time}</p>
+        <p>${event.address}</p>
+        <p>${event.description}</p>
+        <button class="rsvp-btn" data-event-id="${event.id}">RSVP</button>
+      `;
+      eventList.appendChild(eventCard);
+
+      let rsvps = JSON.parse(localStorage.getItem('rsvps') || '[]');
+      const rsvpBtn = eventCard.querySelector('.rsvp-btn');
+      if (rsvps.includes(event.id)) {
+        rsvpBtn.textContent = 'RSVPed!';
+        rsvpBtn.disabled = true;
+      }
+
+      const rsvpButtons = document.querySelectorAll('.rsvp-btn');
+      rsvpButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const eventId = this.getAttribute('data-event-id');
+          let rsvps = JSON.parse(localStorage.getItem('rsvps') || '[]');
+          if (!rsvps.includes(eventId)) {
+            rsvps.push(eventId);
+            localStorage.setItem('rsvps', JSON.stringify(rsvps));
+            this.textContent = 'RSVPed!';
+            this.disabled = true;
+          }
+        });
+      });
+    });
+
+    // set up the buttons for filtering after we're finished rendering
+    const filterButtons = document.querySelectorAll('.event-filters button');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+        const eventCards = document.querySelectorAll('.event-card');
+
+        eventCards.forEach(card => {
+          const tag = card.dataset.tags;
+          const show = (filter === 'all' || filter === tag);
+          card.style.display = show ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Initialize FullCalendar with events
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
+
+    const calendarEvents = events.map(ev => ({
+      title: ev.title,
+      start: ev.date,
+      extendedProps: {
+        description: ev.description,
+        tag: ev.tag
+      }
+    }));
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: calendarEvents,
+      eventDisplay: 'block',
+      eventTextColor: '#222',
+      height: 'auto',
+    });
+
+    calendar.render();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Only render this page if we're on events.html
+    if (window.location.pathname.endsWith('events.html')) {
+      renderEventsPage();
+    }
+  });
+</script>
+
+</body>
+</html>

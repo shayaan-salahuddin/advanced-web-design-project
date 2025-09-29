@@ -1,0 +1,522 @@
+/* Include Google Font: Playfair Display */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base Body Styles */
+body {
+  font-family: 'Roboto', 'Playfair Display', serif;  /* Roboto for body, fallback to Playfair */
+  background-color: #EEEEE9;  /* Light background */
+  color: #516559;  /* Text color */
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
+
+select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  background-color: #fff;
+  color: #516559;
+  margin-top: 0.4em;
+}
+
+/* Header */
+header {
+  background-color: #516559; /* Dark green background */
+  padding: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+header .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #EEEEE9;  /* Light off-white text */
+  margin-right: auto;
+}
+
+header .menu-toggle {
+  display: block;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #EEEEE9;  /* Light text for menu icon */
+  cursor: pointer;
+}
+
+header nav {
+  display: flex;
+  gap: 1.5em;
+}
+
+header nav a {
+  color: #EEEEE9;  /* Light text color */
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+header nav a:hover {
+  color: #C4D5C6;  /* Light green hover effect */
+}
+
+header nav button {
+  background: transparent;
+  color: #EEEEE9;
+  border: none;
+  padding: 0.5em;
+  font-size: 1rem;
+}
+
+header nav button:hover {
+  background-color: #C4D5C6;  /* Light green hover effect */
+  color: #516559;  /* Dark green text */
+}
+
+/* Navigation - Mobile View */
+@media (max-width: 600px) {
+  header nav {
+    display: none;
+    flex-direction: column;
+    background-color: #516559; /* Dark green background */
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    padding: 1em;
+    border-radius: 0.5em;
+  }
+
+  header nav.show {
+    display: flex;
+  }
+
+  header nav a {
+    margin: 0.5em 0;
+    text-align: center;
+  }
+}
+
+/* Main Content */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5em;
+  background-color: #ffffff;  /* White background for content */
+  border-radius: 0.5em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section */
+.hero-section {
+  background-color: #516559;
+  color: #EEEEE9;
+  padding: 3em 1em;
+  text-align: center;
+  margin-bottom: 3em;
+  border-radius: 0.5em;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1em;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5em;
+}
+
+.hero-section .cta-btn {
+  background-color: #C4D5C6;
+  color: #516559;
+  border: none;
+  padding: 1em 2em;
+  font-size: 1rem;
+  border-radius: 0.4em;
+  cursor: pointer;
+}
+
+.hero-section .cta-btn:hover {
+  background-color: #516559;
+  color: #EEEEE9;
+}
+
+/* Featured Grid */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2em;
+  margin-bottom: 3em;
+}
+
+.featured-item {
+  background-color: #ffffff;
+  padding: 1.5em;
+  border: 1px solid #C4D5C6;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.featured-item h3 {
+  font-size: 1.4rem;
+  color: #516559;
+}
+
+.featured-item p {
+  font-size: 1rem;
+  color: #516559;
+}
+
+.featured-item button {
+  background-color: #516559;
+  color: #EEEEE9;
+  border: none;
+  padding: 0.8em 2em;
+  font-size: 1rem;
+  border-radius: 0.4em;
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.featured-item button:hover {
+  background-color: #C4D5C6;
+  color: #516559;
+}
+
+/* Card Elements */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #C4D5C6;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+  text-align: center;
+}
+
+/* Ensure the grid is two columns and cards fill the space */
+.post-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+  margin: 2em 0;
+}
+
+/* Consistent image style */
+.card img, .post-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 1em;
+  background: #eee;
+}
+
+/* Consistent heading and text */
+.card h3, .card h2 {
+  color: #516559;
+  font-size: 1.3rem;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.card p {
+  color: #516559;
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+}
+
+/* Like button at the bottom */
+.card button {
+  margin-top: auto;
+  background: #C4D5C6;
+  border: 1px solid #C4D5C6;
+  color: #516559;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 0.3em;
+  padding: 0.4em 1em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.card button:hover {
+  background: #516559;
+  color: #EEEEE9;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  background-color: #C4D5C6;  /* Light green background */
+  color: #516559;  /* Dark green text */
+  padding: 1.5em;
+  font-size: 1rem;
+  margin-top: 2em;
+  border-radius: 0.5em 0.5em 0 0;
+}
+
+/* Form Toggle */
+form {
+  display: none;
+  margin-top: 1.5em;
+}
+
+form.show {
+  display: block;
+}
+
+
+#newForm input,
+#newForm textarea {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+#newForm label {
+  font-weight: bold;
+  display: block;
+}
+
+#newForm button {
+  padding: 0.6em 1.2em;
+  background-color: #C4D5C6;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+#newForm button:hover {
+  background-color: #516559;
+  color: white;
+}
+
+form#newForm {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* General Button */
+button {
+  background-color: #C4D5C6;
+  color: #516559;
+  border: 1px solid #C4D5C6;
+  padding: 0.9em 1.8em; ;
+  font-size: 1.2rem;
+  font-family: 'Roboto', serif;
+  border-radius: 0.5em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #516559;
+  color: #EEEEE9;
+  border-color: #516559;
+}
+
+/* FullCalendar color overrides (from documentation) */
+#calendar {
+  --fc-bg-event: #C4D5C6;         /* Light green background for events */
+  --fc-bg-event-hover: #516559;   /* Dark green on hover */
+  --fc-text-event: #516559;       /* Dark green text */
+  --fc-today-bg-color: #EEEEE9;   /* Off-white background for today */
+  --fc-border-color: #C4D5C6;     /* Border color for events */
+  --fc-button-bg: #C4D5C6;        /* Button background */
+  --fc-button-hover-bg: #516559;  /* Button hover background */
+  --fc-button-text-color: #516559; /* Button text color */
+  --fc-button-hover-text-color: #EEEEE9; /* Button hover text color */
+}
+
+/* Override toolbar button styles */
+.fc-toolbar button {
+  background-color: #C4D5C6 !important;
+  color: #516559 !important;
+  border: 1px solid #C4D5C6 !important;
+  border-radius: 0.5em;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.fc-toolbar button:hover {
+  background-color: var(--fc-button-hover-bg);
+  color: var(--fc-button-hover-text-color);
+  border-color: var(--fc-button-hover-bg);
+}
+
+/* Event styles */
+.fc-event {
+  background-color: var(--fc-bg-event) !important;
+  border-color: var(--fc-border-color) !important;
+  color: var(--fc-text-event) !important;
+  font-family: inherit;
+  border-radius: 0.4em;
+}
+
+.fc-event-title {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  line-height: 1.2;
+  font-size: 0.95rem;
+  word-break: break-word;
+  padding: 0.1em 0.2em;
+}
+
+.fc-daygrid-event {
+  white-space: normal !important;
+  padding: 0.2em;
+}
+
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  margin-top: 2em;
+}
+
+.event-card {
+  background-color: #ffffff;
+  border: 1px solid #C4D5C6;
+  border-radius: 0.5em;
+  padding: 1.5em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  color: #516559;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.event-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5em;
+  color: #516559;
+}
+
+.event-card p {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 0.3em;
+}
+
+.event-card::before {
+  content: attr(data-tags);
+  display: inline-block;
+  background-color: #C4D5C6;
+  color: #516559;
+  font-size: 0.85rem;
+  padding: 0.3em 0.8em;
+  border-radius: 1em;
+  margin-bottom: 0.8em;
+  font-weight: bold;
+}
+
+.event-filters {
+  display: flex;
+  gap: 1em;
+  margin-top: 2em;
+  margin-bottom: 1.5em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.event-filters button {
+  background-color: #C4D5C6;
+  color: #516559;
+  border: 1px solid #C4D5C6;
+  padding: 0.5em 1em;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  border-radius: 1.5em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.event-filters button:hover {
+  background-color: #516559;
+  color: #EEEEE9;
+}
+
+.event-filters button.active {
+  background-color: #516559;
+  color: #EEEEE9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+header .logo,
+header nav a {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.5px; /* optional: for a refined look */
+}
+
+.profile-container {
+  max-width: 900px;
+  margin: 2em auto;
+  background: #fff;
+  border-radius: 0.7em;
+  box-shadow: 0 4px 16px rgba(81,101,89,0.08);
+  padding: 2em 2.5em;
+}
+
+.profile-card, .events-section, .posts-section, .locations-section {
+  background: #f7f9f7;
+  border-radius: 0.5em;
+  padding: 1.5em;
+  margin-bottom: 2em;
+  box-shadow: 0 2px 8px rgba(81,101,89,0.05);
+}
+
+.rsvped-event-card, .profile-post-card, .profile-location-card {
+  background: #f7f9f7;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 8px rgba(81,101,89,0.05);
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.cancel-rsvp-btn {
+  background: #C4D5C6;
+  color: #516559;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.3em;
+  cursor: pointer;
+  margin-top: 0.5em;
+}
+
+.cancel-rsvp-btn:hover {
+  background: #516559;
+  color: #EEEEE9;
+}
