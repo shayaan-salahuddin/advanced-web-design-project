@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Barking Around MD - Profile</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <div class="logo">Barking Around MD</div>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="events.html">Events</a>
+    <a href="posts.html">Posts</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<br>
+
+<main class="container profile-container">
+  <!-- Your Profile Section -->
+  <section class="profile-card">
+    <h2>Your Profile</h2>
+    <div id="profile-info"></div>
+  </section>
+
+  <!-- Your Upcoming Events Section -->
+  <section class="events-section">
+    <h2>Your Upcoming Events</h2>
+    <div id="rsvped-events"></div>
+  </section>
+
+  <!-- Your Posts Section -->
+  <section class="posts-section">
+    <h2>Your Posts</h2>
+    <div id="your-posts"></div>
+  </section>
+</main>
+
+<footer>
+  Created by Alyssa Teramoto & Shayaan Salahuddin
+</footer>
+
+<script>
+// --- Profile Info ---
+document.addEventListener('DOMContentLoaded', function() {
+  // Ensure default events are present in localStorage
+  if (!localStorage.getItem("events")) {
+    localStorage.setItem("events", JSON.stringify([
+      {
+        id: 'sample1',
+        title: 'Great Falls Park Meetup',
+        date: '2025-05-20',
+        time: '8:30',
+        address: '10801 Macarthur Blvd, Potomac, MD 20854, USA',
+        description: 'Join us for a fun dog-walk at Great Falls Park! Hosted by Canine Humane Network.',
+        tag: 'Meetup'
+      },
+      {
+        id: 'sample2',
+        title: 'Basic Obedience Training',
+        date: '2025-06-22',
+        time: '15:00',
+        address: '12221 Parklawn Dr, Rockville, MD 20852, USA',
+        description: 'Help your dog learn basic obedience skills.',
+        tag: 'Training'
+      },
+      {
+        id: 'sample3',
+        title: 'Dog Rescue Fundraiser',
+        date: '2025-06-25',
+        time: '18:00',
+        address: '10400 Old Georgetown Rd, Bethesda, MD 20814, USA',
+        description: 'Support local dog rescues by attending this fundraiser event hosted by CHARM Rescue.',
+        tag: 'Fundraiser'
+      },
+      {
+        id: 'sample4',
+        title: 'Puppy Social Hour',
+        date: '2025-07-05',
+        time: '10:00',
+        address: 'Dogtopia, 4936 Fairmont Ave, Bethesda, MD 20814, USA',
+        description: 'Bring your puppy for a morning of socialization and fun!',
+        tag: 'Meetup'
+      },
+      {
+        id: 'sample5',
+        title: 'Advanced Agility Training',
+        date: '2025-07-12',
+        time: '14:00',
+        address: 'Rock Creek Park, 5200 Glover Rd NW, Washington, DC 20015, USA',
+        description: 'Take your dog\'s agility skills to the next level with our advanced class.',
+        tag: 'Training'
+      },
+      {
+        id: 'sample6',
+        title: 'Summer Bark-B-Q Fundraiser',
+        date: '2025-07-20',
+        time: '12:00',
+        address: 'Cabin John Regional Park, 7400 Tuckerman Ln, Bethesda, MD 20817, USA',
+        description: 'Enjoy BBQ and games while supporting local shelters.',
+        tag: 'Fundraiser'
+      },
+      {
+        id: 'sample7',
+        title: 'Evening Dog Walk Meetup',
+        date: '2025-07-25',
+        time: '19:00',
+        address: 'Downtown Silver Spring, 1 Veterans Pl, Silver Spring, MD 20910, USA',
+        description: 'Meet fellow dog lovers for a relaxing evening walk.',
+        tag: 'Meetup'
+      },
+      {
+        id: 'sample8',
+        title: 'Tricks & Treats Training',
+        date: '2025-08-02',
+        time: '11:00',
+        address: 'PetSmart, 12020 Cherry Hill Rd, Silver Spring, MD 20904, USA',
+        description: 'Teach your dog new tricks and earn treats!',
+        tag: 'Training'
+      },
+      {
+        id: 'sample9',
+        title: 'Annual Dog Costume Parade',
+        date: '2025-08-10',
+        time: '16:00',
+        address: 'Veterans Plaza, 1 Veterans Pl, Silver Spring, MD 20910, USA',
+        description: 'Dress up your pup and join the parade for prizes and fun.',
+        tag: 'Fundraiser'
+      }
+    ]));
+  }
+
+  // Profile info
+  const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  const username = userData.username || "Anonymous";
+  const email = userData.email || "Not provided";
+  document.getElementById('profile-info').innerHTML = `
+    <p><strong>Username:</strong> ${username}</p>
+    <p><strong>Email:</strong> ${email}</p>
+  `;
+
+  // --- RSVPED EVENTS SECTION ---
+  function loadEvents() {
+    const data = localStorage.getItem("events");
+    return data ? JSON.parse(data) : [];
+  }
+  function renderRSVPedEvents() {
+    const rsvps = JSON.parse(localStorage.getItem('rsvps') || '[]');
+    const events = loadEvents();
+    const rsvpedEvents = events.filter(ev => rsvps.includes(ev.id));
+    const container = document.getElementById('rsvped-events');
+    if (rsvpedEvents.length === 0) {
+      container.innerHTML = '<p>No RSVPed events yet.</p>';
+      return;
+    }
+    container.innerHTML = '';
+    rsvpedEvents.forEach(ev => {
+      const div = document.createElement('div');
+      div.className = 'rsvped-event-card';
+      div.innerHTML = `
+        <h3>${ev.title}</h3>
+        <p>${new Date(ev.date).toLocaleDateString()} at ${ev.time}</p>
+        <p>${ev.address}</p>
+        <p>${ev.description}</p>
+        <button class="cancel-rsvp-btn" data-event-id="${ev.id}">Cancel RSVP</button>
+      `;
+      container.appendChild(div);
+    });
+    document.querySelectorAll('.cancel-rsvp-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const eventId = this.getAttribute('data-event-id');
+        let rsvps = JSON.parse(localStorage.getItem('rsvps') || '[]');
+        rsvps = rsvps.filter(id => id !== eventId);
+        localStorage.setItem('rsvps', JSON.stringify(rsvps));
+        renderRSVPedEvents();
+      });
+    });
+  }
+  renderRSVPedEvents();
+
+  // --- YOUR POSTS SECTION ---
+  function loadPosts() {
+    return JSON.parse(localStorage.getItem('posts')) || [];
+  }
+  function renderPosts() {
+    const posts = loadPosts().filter(post => post.username === username);
+    const container = document.getElementById('your-posts');
+    if (posts.length === 0) {
+      container.innerHTML = '<p>No posts yet.</p>';
+      return;
+    }
+    container.innerHTML = '';
+    posts.forEach((post, idx) => {
+      const div = document.createElement('div');
+      div.className = 'profile-post-card';
+      div.innerHTML = `
+        ${post.image ? `<img src="${post.image}" alt="Post image" style="width:100%;max-height:200px;object-fit:cover;border-radius:0.5em 0.5em 0 0;margin-bottom:0.5em;">` : ''}
+        <h4 style="margin:0.5em 0 0.2em 0;">${post.location || 'Untitled Post'}</h4>
+        <p style="margin:0.2em 0 0.5em 0;">${post.content || post.description || ''}</p>
+        <p style="font-size:0.9em;color:#888;margin:0 0 0.5em 0;">${post.date ? new Date(post.date).toLocaleDateString() : ''}</p>
+        <button class="delete-post-btn primary-btn" data-idx="${idx}">Delete</button>
+      `;
+      container.appendChild(div);
+    });
+
+    // Add event listeners for delete buttons
+    document.querySelectorAll('.delete-post-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const idx = parseInt(this.getAttribute('data-idx'));
+        let allPosts = loadPosts();
+        let userPosts = allPosts.filter(post => post.username === username);
+        const postToDelete = userPosts[idx];
+        const deleteIdx = allPosts.findIndex(
+          p => p.username === postToDelete.username &&
+               p.title === postToDelete.title &&
+               p.content === postToDelete.content &&
+               p.date === postToDelete.date
+        );
+        if (deleteIdx !== -1) {
+          allPosts.splice(deleteIdx, 1);
+          localStorage.setItem('posts', JSON.stringify(allPosts));
+          renderPosts();
+        }
+      });
+    });
+  }
+  renderPosts();
+});
+</script>
+</body>
+</html>

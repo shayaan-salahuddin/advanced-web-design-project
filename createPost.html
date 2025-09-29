@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Barking Around MD - Make a Community Post</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <div class="logo">Barking Around MD</div>
+  <nav aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="events.html">Events</a>
+    <a href="posts.html">Posts</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<h1 style="text-align: center; padding-top: 1.2em;">Make a Community Post!</h1>
+
+<form id="newForm" style="margin-top: 1em; background: #f7f7f7; padding: 1em; border-radius: 0.5em; max-width: 500px; font-family: inherit; display: block !important;">
+    <label>Choose a image to post:</label>
+    <input type="file" id="image" accept="image/*" />
+
+    <label>Location Name:</label>
+    <input type="text" id="location" required />
+
+    <label>Date:</label>
+    <input type="date" id="date" required />
+
+    <label>Description:</label>
+    <textarea id="description" required></textarea>
+
+    <button type="submit" style="margin: 15px auto 0; display: block;">Post!</button>
+</form>
+
+<footer>
+  Created by Alyssa Teramoto & Shayaan Salahuddin
+</footer>
+
+<script>
+  document.getElementById('newForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const title = document.getElementById('location').value;
+    const content = document.getElementById('description').value;
+    const date = document.getElementById('date').value;
+    const imageInput = document.getElementById('image');
+    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+    const username = userData.username || "Anonymous";
+
+    function savePost(post) {
+      const posts = JSON.parse(localStorage.getItem('posts')) || [];
+      posts.push(post);
+      localStorage.setItem('posts', JSON.stringify(posts));
+      // Redirect to posts page to prevent duplicate submissions
+      window.location.href = "posts.html";
+    }
+
+    // If an image is selected, read it as a data URL
+    if (imageInput.files && imageInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        savePost({
+          id: Date.now(), // Unique ID for the post
+          image: event.target.result, // This is the data URL
+          location: title,
+          date: date ? new Date(date).toISOString() : new Date().toISOString(),
+          description: content,
+          likes: 0,
+          username: username
+        });
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      // No image selected
+      savePost({
+        id: Date.now(), // Unique ID for the post
+        image: '',
+        location: title,
+        date: date ? new Date(date).toISOString() : new Date().toISOString(),
+        description: content,
+        likes: 0,
+        username: username
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
